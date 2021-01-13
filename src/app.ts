@@ -1,19 +1,19 @@
-import express from "express"
+import express, { Request, Response, NextFunction } from "express"
 import mongoose from "mongoose"
+import { uri, db } from "./db"
+import { checkKey } from "./middleware"
 
 
 export const startServer = async () => {
     const port = process.env.PORT || 3000
     const app = express()
     app.use(express.json())
-    // console.log(process.env.JWT_SIGNATURE)
 
-    const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@projects-db.iksy4.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
-    const db = mongoose.connection
     await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+    
+    app.use(checkKey)
 
-
-    app.get("/projects", async (req, res) => {
+    app.get("/projects", async (req: Request, res: Response) => {
         const data = await db.collection("projects").find().toArray()
         res.send(data)
     })
