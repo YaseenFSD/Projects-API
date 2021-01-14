@@ -16,7 +16,7 @@
   "scripts": {
     "dev": "nodemon",
     "build": "rimraf ./tscbuild && tsc",
-    "heroku-postbuild": "node tscbuild/index.js"
+    "start": "node tscbuild/index.js"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
