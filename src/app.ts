@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express"
 import mongoose from "mongoose"
+import { ObjectId } from "mongodb"
 import { uri, db } from "./db"
 import { checkKey, checkGenerationPw } from "./middleware"
 
@@ -18,7 +19,13 @@ export const startServer = async () => {
     })
 
     app.post("/api/generate-key", checkGenerationPw, async (req: Request, res: Response) => {
-        res.send("Success")
+        const new_key = new ObjectId()
+        db.collection("api_keys").insertOne({
+            "_id": new_key,
+            key_holder: req.body.key_holder,
+            enabled: true
+        })
+        res.send(new_key)
     })
 
 
