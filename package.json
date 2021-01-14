@@ -15,7 +15,7 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "build": "rimraf ./tscbuild && tsc",
+    "postinstall": "rimraf ./tscbuild && tsc",
     "start": "node tscbuild/index.js"
   },
   "dependencies": {
