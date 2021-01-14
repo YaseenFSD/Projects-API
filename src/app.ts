@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 import { ObjectId } from "mongodb"
 import { uri, db } from "./db"
 import { checkKey, checkGenerationPw } from "./middleware"
+import Project from "./schemas/projects"
 
 
 export const startServer = async () => {
@@ -10,7 +11,7 @@ export const startServer = async () => {
     const app = express()
     app.use(express.json())
 
-    await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+    await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 
 
     app.get("/api/projects", async (req: Request, res: Response) => {
@@ -30,8 +31,34 @@ export const startServer = async () => {
 
 
 
-    app.get("/api/test", checkKey, (req: Request, res: Response) => {
-        res.send("test complete")
+    app.post("/api/project", async (req: Request, res: Response) => {
+        let project
+        try {
+            project = await Project.create(req.body)
+            res.status(200).send({
+                "StatusCode": 200,
+                "Message": "Project posted successfully"
+            })
+        } catch (error) {
+            res.send({
+                "StatusCode": 400,
+                "Message": "Invalid or incomplete data"
+            })
+            return
+        }
+        try {
+            await db.collection("projects").insertOne(project)
+        } catch (error) {
+            res.status(500).send({
+                "StatusCode": 500,
+                "Message": "Internal server Error"
+            })
+            return
+        }
+        res.status(200).send({
+            "StatusCode": 200,
+            "Message": "Post successful"
+        })
     })
 
 
