@@ -1,10 +1,9 @@
-import { Timestamp } from "mongodb";
 import mongoose, { Schema, Document } from "mongoose"
 
 interface IProject extends Document {
     name: string,
     project_level: number,
-    init_mvp: Timestamp,
+    init_mvp: number,
     team_count: number,
     img_url: string,
     techs_used: string[],

@@ -31,34 +31,18 @@ export const startServer = async () => {
 
 
 
-    app.post("/api/project", async (req: Request, res: Response) => {
-        let project
-        try {
-            project = await Project.create(req.body)
-            res.status(200).send({
-                "StatusCode": 200,
-                "Message": "Project posted successfully"
-            })
-        } catch (error) {
-            res.send({
-                "StatusCode": 400,
-                "Message": "Invalid or incomplete data"
-            })
-            return
-        }
-        try {
-            await db.collection("projects").insertOne(project)
-        } catch (error) {
-            res.status(500).send({
-                "StatusCode": 500,
-                "Message": "Internal server Error"
-            })
-            return
-        }
-        res.status(200).send({
-            "StatusCode": 200,
-            "Message": "Post successful"
+    app.post("/api/project", checkKey, (req: Request, res: Response) => {
+        Project.create(req.body, (err: Error) => {
+            if (err){
+                res.status(500).send(err)
+            } else {
+                res.status(200).send({
+                    "StatusCode": 200,
+                    "Message": "Project posted successfully"
+                })
+            }
         })
+
     })
 
 

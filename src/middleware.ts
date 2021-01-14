@@ -29,6 +29,7 @@ export const checkKey = async (req: Request, res: Response, next: NextFunction) 
             "StatusCode": 403,
             "Message": "Key disabled"
         })
+        return
     } else {
         next()
     }
