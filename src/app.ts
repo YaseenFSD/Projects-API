@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express"
+import express, { request, Request, response, Response } from "express"
 import mongoose from "mongoose"
 import { ObjectId } from "mongodb"
 import { uri, db } from "./db"
@@ -12,7 +12,10 @@ export const startServer = async () => {
     app.use(express.json())
 
     await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
-
+    
+    app.get("/", (req: Request, res: Response) => {
+        res.redirect("/api/projects")
+    })
 
     app.get("/api/projects", async (req: Request, res: Response) => {
         const data = await db.collection("projects").find().toArray()

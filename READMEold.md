@@ -14,3 +14,6 @@
     - Create a POST request for adding projects that requires an api key
 
 
+**Todos:**
+- ~~Add Summary to projects~~
+- ~~Add Repo Link~~
