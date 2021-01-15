@@ -8,6 +8,8 @@ interface IProject extends Document {
     img_url: string,
     techs_used: string[],
     main_language: string,
+    repo_link: string,
+    summary: string
 }
 
 const ProjectSchema: Schema = new Schema({
@@ -17,7 +19,9 @@ const ProjectSchema: Schema = new Schema({
     team_count: {type: Number, required: true },
     img_url: String,
     techs_used: {type:Array, required: true},
-    main_language: {type: String, required: true}
+    main_language: {type: String, required: true},
+    repo_link: {type:String, required: true},
+    summary: {type: String, required: true}
 });
 
 export default mongoose.model<IProject>('Project', ProjectSchema);
