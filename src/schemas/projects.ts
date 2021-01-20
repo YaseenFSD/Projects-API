@@ -9,7 +9,9 @@ interface IProject extends Document {
     techs_used: string[],
     main_language: string,
     repo_link: string,
-    summary: string
+    description: string,
+    website_url: string,
+    more_info: string
 }
 
 const ProjectSchema: Schema = new Schema({
@@ -21,7 +23,9 @@ const ProjectSchema: Schema = new Schema({
     techs_used: {type:Array, required: true},
     main_language: {type: String, required: true},
     repo_link: {type:String, required: true},
-    summary: {type: String, required: true}
+    description: {type: String, required: true},
+    website_url: String,
+    more_info: String
 });
 
 export default mongoose.model<IProject>('Project', ProjectSchema);
