@@ -17,3 +17,6 @@
 **Todos:**
 - ~~Add Summary to projects~~
 - ~~Add Repo Link~~
+- ~~Change Summary to description~~
+- ~~Add a website url~~
+- ~~Add a "What I learned section"~~
