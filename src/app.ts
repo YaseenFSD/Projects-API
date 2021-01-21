@@ -10,9 +10,13 @@ export const startServer = async () => {
     const port = process.env.PORT || 3000
     const app = express()
     app.use(express.json())
-
+    app.use((req, res, next) => {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next()
+    })
     await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
-    
+
     app.get("/", (req: Request, res: Response) => {
         res.redirect("/api/projects")
     })
@@ -36,7 +40,7 @@ export const startServer = async () => {
 
     app.post("/api/project", checkKey, (req: Request, res: Response) => {
         Project.create(req.body, (err: Error) => {
-            if (err){
+            if (err) {
                 res.status(500).send(err)
             } else {
                 res.status(200).send({
